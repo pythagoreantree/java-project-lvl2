@@ -1,27 +1,56 @@
 package hexlet.code;
 
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Parameters;
-import picocli.CommandLine.Option;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.util.concurrent.Callable;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
-@Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0",
-        description = "Compares two configuration files and shows a difference.")
-public class Differ implements Callable<Integer> {
+public class Differ {
 
-    @Parameters(index = "0", paramLabel = "filepath1", description = "path to first file")
-    private File filepath1;
+    public static Map<String, Object> getFileData(String filepath) throws IOException {
+        Path absolutePath = Paths.get(filepath).toAbsolutePath();
+//        System.out.println(absolutePath.toString());
+        File file = new File(absolutePath.toString());
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(file, new TypeReference<Map<String,Object>>(){});
+    }
+    public static String generate(String filepath1, String filepath2) throws IOException {
+        Map<String, Object> mapFirst = getFileData(filepath1);
+        Map<String, Object> mapSecond = getFileData(filepath2);
 
-    @Parameters(index = "1", paramLabel = "filepath2", description = "path to second file")
-    private File filepath2;
-
-    @Option(names = {"-f", "--format"}, description = "output format [default: ${DEFAULT-VALUE}]", defaultValue = "stylish")
-    private String format = "stylish";
-
-    @Override
-    public Integer call() throws Exception {
-        return 0;
+        Set<String> allkeys = new TreeSet<>();
+        allkeys.addAll(mapFirst.keySet());
+        allkeys.addAll(mapSecond.keySet());
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\n");
+        for(String key: allkeys){
+            if (mapFirst.containsKey(key) && !mapSecond.containsKey(key)){
+                sb.append("-").append(" ").
+                        append(key).append(":").append(mapFirst.get(key)).append("\n");
+            } else if (mapFirst.containsKey(key) && mapSecond.containsKey(key)){
+                Object o1 = mapFirst.get(key);
+                Object o2 = mapSecond.get(key);
+                if (o1.toString().equals(o2.toString())){
+                    sb.append("  ").append(key).append(": ").append(o1).append("\n");
+                } else {
+                    sb.append("-").append(" ").
+                            append(key).append(": ").append(o1).append("\n");
+                    sb.append("+").append(" ").
+                            append(key).append(": ").append(o2).append("\n");
+                }
+            } else {
+                sb.append("+").append(" ").
+                        append(key).append(": ").append(mapSecond.get(key)).append("\n");
+            }
+        }
+        sb.append("}");
+        /*for(Map.Entry<String, Object> entry: map.entrySet()){
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }*/
+        return sb.toString();
     }
 }
