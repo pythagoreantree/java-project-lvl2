@@ -29,30 +29,31 @@ public class Differ {
         allkeys.addAll(mapSecond.keySet());
         StringBuilder sb = new StringBuilder();
         sb.append("{\n");
-        for (String key: allkeys) {
-            if (mapFirst.containsKey(key) && !mapSecond.containsKey(key)) {
-                sb.append("-").append(" ").
-                        append(key).append(":").append(mapFirst.get(key)).append("\n");
-            } else if (mapFirst.containsKey(key) && mapSecond.containsKey(key)) {
-                Object o1 = mapFirst.get(key);
-                Object o2 = mapSecond.get(key);
-                if (o1.toString().equals(o2.toString())) {
-                    sb.append("  ").append(key).append(": ").append(o1).append("\n");
-                } else {
-                    sb.append("-").append(" ").
-                            append(key).append(": ").append(o1).append("\n");
-                    sb.append("+").append(" ").
-                            append(key).append(": ").append(o2).append("\n");
-                }
-            } else {
-                sb.append("+").append(" ").
-                        append(key).append(": ").append(mapSecond.get(key)).append("\n");
-            }
-        }
         sb.append("}");
         /*for(Map.Entry<String, Object> entry: map.entrySet()){
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }*/
         return sb.toString();
     }
+
+    /*for (String key: allkeys) {
+        if (mapFirst.containsKey(key) && !mapSecond.containsKey(key)) {
+            sb.append("-").append(" ").
+                    append(key).append(":").append(mapFirst.get(key)).append("\n");
+        } else if (mapFirst.containsKey(key) && mapSecond.containsKey(key)) {
+            Object o1 = mapFirst.get(key);
+            Object o2 = mapSecond.get(key);
+            if (o1.toString().equals(o2.toString())) {
+                sb.append("  ").append(key).append(": ").append(o1).append("\n");
+            } else {
+                sb.append("-").append(" ").
+                        append(key).append(": ").append(o1).append("\n");
+                sb.append("+").append(" ").
+                        append(key).append(": ").append(o2).append("\n");
+            }
+        } else {
+            sb.append("+").append(" ").
+                    append(key).append(": ").append(mapSecond.get(key)).append("\n");
+        }
+    }*/
 }
