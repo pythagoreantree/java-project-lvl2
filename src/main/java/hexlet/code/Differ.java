@@ -7,7 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Differ {
 
@@ -16,7 +18,7 @@ public class Differ {
 //        System.out.println(absolutePath.toString());
         File file = new File(absolutePath.toString());
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(file, new TypeReference<Map<String,Object>>(){});
+        return mapper.readValue(file, new TypeReference<Map<String, Object>>() { });
     }
     public static String generate(String filepath1, String filepath2) throws IOException {
         Map<String, Object> mapFirst = getFileData(filepath1);
@@ -27,14 +29,14 @@ public class Differ {
         allkeys.addAll(mapSecond.keySet());
         StringBuilder sb = new StringBuilder();
         sb.append("{\n");
-        for(String key: allkeys){
-            if (mapFirst.containsKey(key) && !mapSecond.containsKey(key)){
+        for (String key: allkeys) {
+            if (mapFirst.containsKey(key) && !mapSecond.containsKey(key)) {
                 sb.append("-").append(" ").
                         append(key).append(":").append(mapFirst.get(key)).append("\n");
-            } else if (mapFirst.containsKey(key) && mapSecond.containsKey(key)){
+            } else if (mapFirst.containsKey(key) && mapSecond.containsKey(key)) {
                 Object o1 = mapFirst.get(key);
                 Object o2 = mapSecond.get(key);
-                if (o1.toString().equals(o2.toString())){
+                if (o1.toString().equals(o2.toString())) {
                     sb.append("  ").append(key).append(": ").append(o1).append("\n");
                 } else {
                     sb.append("-").append(" ").
