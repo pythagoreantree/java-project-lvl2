@@ -15,11 +15,20 @@ run-dist:
 run-dist-2:
 	./build/install/java-project-lvl2/bin/java-project-lvl2 -h
 
-run-dist-3:
+run-dist-json:
 	./build/install/java-project-lvl2/bin/java-project-lvl2 file1.json file2.json
 
-run-dist-4:
+run-dist-yml:
 	./build/install/java-project-lvl2/bin/java-project-lvl2 file1.yml file2.yml
+
+run-dist-stylish:
+	./build/install/java-project-lvl2/bin/java-project-lvl2 -f stylish file1.json file2.json
+
+run-dist-plain:
+	./build/install/java-project-lvl2/bin/java-project-lvl2 -f plain file1.json file2.json
+
+run-dist-json-out:
+	./build/install/java-project-lvl2/bin/java-project-lvl2 -f json file1.json file2.json
 
 run:
 	./gradlew run
