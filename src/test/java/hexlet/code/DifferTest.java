@@ -61,7 +61,7 @@ class DifferTest {
     }
 
     @DisplayName("Test simple cases")
-    @ParameterizedTest(name = "Test {0} input files")
+    @ParameterizedTest(name = "Test {index}: input [{0}], output [default=stylish]")
     @ValueSource(strings = {"json", "yml"})
     void testSimple(String ext) {
         try {
@@ -76,7 +76,7 @@ class DifferTest {
     }
 
     @DisplayName("Test complex cases")
-    @ParameterizedTest(name = "Test {0} input files")
+    @ParameterizedTest(name = "Test {index}: input [{0}], output [default=stylish]")
     @CsvSource({"json", "yml"})
     void testComplex(String ext) {
         try {
@@ -107,7 +107,7 @@ class DifferTest {
     }
 
     @DisplayName("Test json output format")
-    @ParameterizedTest(name = "Test {index}: input [{0}], output [1]")
+    @ParameterizedTest(name = "Test {index}: input [{0}], output [{1}]")
     @CsvSource({"json, json", "yml, json"})
     void testJsonOutput(String inputFormat, String outputFormat) {
         try {
