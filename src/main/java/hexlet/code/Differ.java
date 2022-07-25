@@ -1,5 +1,8 @@
 package hexlet.code;
 
+import hexlet.code.formatter.Formatter;
+import hexlet.code.formatter.FormatterFactory;
+import hexlet.code.formatter.StylishFormatter;
 import hexlet.code.parser.Parser;
 import hexlet.code.parser.ParserFactory;
 
@@ -61,7 +64,8 @@ public class Differ {
             result.add(propMap);
         }
 
-        return Formatter.formatToString(result);
+        Formatter formatter = FormatterFactory.getFormatter(format);
+        return formatter.format(result);
     }
 
     public static String generate(String filepath1, String filepath2) throws Exception {
@@ -86,7 +90,7 @@ public class Differ {
         if (path.isAbsolute()) {
             return path.toFile();
         }
-        return path.toAbsolutePath().toFile();
+        return path.toAbsolutePath().normalize().toFile();
     }
 
 }

@@ -15,6 +15,7 @@ import java.util.concurrent.Callable;
 public class App implements Callable<Integer> {
 
     private static final int EXIT_CODE = 0;
+    private static final int ERROR_CODE = 1;
 
     @Parameters(index = "0", paramLabel = "filepath1", description = "path to first file")
     private String filepath1;
@@ -32,9 +33,14 @@ public class App implements Callable<Integer> {
      * @throws Exception if file not found
      */
     @Override
-    public Integer call() throws Exception {
-        String diff = Differ.generate(filepath1, filepath2, format);
-        System.out.println(diff);
+    public Integer call() {
+        try {
+            String diff = Differ.generate(filepath1, filepath2, format);
+            System.out.println(diff);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return ERROR_CODE;
+        }
         return EXIT_CODE;
     }
 
