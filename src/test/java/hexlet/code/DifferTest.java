@@ -26,16 +26,15 @@ class DifferTest {
         }
     }
 
-//    @Test
+    @Test
     void testJsonComplex() {
         try {
             String res = Files.readString(Paths.get("result_stylish_complex.txt"));
-//            String ans = Differ.generate("file3.json", "file4.json");
-            System.out.println(res);
-            System.out.println();
+            String ans = Differ.generate("file3.json", "file4.json");
+//            System.out.println(res);
+//            System.out.println();
 //            System.out.println(ans);
-
-//            Assertions.assertTrue(ans.equals(res));
+            Assertions.assertTrue(ans.equals(res));
         } catch (IOException e) {
             System.out.println("Can't open file");
         } catch (Exception e) {
@@ -49,6 +48,20 @@ class DifferTest {
         try {
             String res = Files.readString(Paths.get("result_stylish.txt"));
             String ans = Differ.generate("file1.yml", "file2.yml");
+            Assertions.assertTrue(ans.equals(res));
+        } catch (IOException e) {
+            System.out.println("Can't open file");
+        } catch (Exception e) {
+            System.out.println(e.getCause());
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    void testYmlComplex() {
+        try {
+            String res = Files.readString(Paths.get("result_stylish_complex.txt"));
+            String ans = Differ.generate("file3.yml", "file4.yml");
             Assertions.assertTrue(ans.equals(res));
         } catch (IOException e) {
             System.out.println("Can't open file");
