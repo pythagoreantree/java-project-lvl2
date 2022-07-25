@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class YmlParser implements Parser {
+public final class YmlParser implements Parser {
 
     @Override
     public Map<String, Object> parse(File file) throws IOException {

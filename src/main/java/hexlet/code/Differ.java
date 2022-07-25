@@ -16,11 +16,12 @@ public class Differ {
     public static String generate(String filepath1, String filepath2) throws Exception {
         Objects.requireNonNull(filepath1);
         Objects.requireNonNull(filepath2);
-        if (filepath1.isEmpty() || filepath2.isEmpty())
+        if (filepath1.isEmpty() || filepath2.isEmpty()) {
             throw new Exception("Both file paths should be filled.");
+        }
 
         String[] path = filepath1.split("\\.");
-        String format = path.length < 2? "json": path[1];
+        String format = path.length < 2 ? "json" : path[1];
         Parser parser = ParserFactory.getParser(format);
         Map<String, Object> mapFirst = parser.parse(getFile(filepath1));
         Map<String, Object> mapSecond = parser.parse(getFile(filepath2));
@@ -56,7 +57,7 @@ public class Differ {
 
     public static File getFile(String filepath) {
         Path path = Paths.get(filepath);
-        if (path.isAbsolute()){
+        if (path.isAbsolute()) {
             return path.toFile();
         }
         String workingDirectory = System.getProperty("user.dir");

@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-public class JsonParser implements Parser {
+public final class JsonParser implements Parser {
 
     @Override
     public Map<String, Object> parse(File file) throws IOException {
