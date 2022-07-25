@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,9 +15,10 @@ import java.nio.file.Paths;
 
 class DifferTest {
 
+    private static String resultSimpleStylish;
     private static String resultStylish;
-    private static String resultStylishComplex;
-    private static String resultPlainComplex;
+    private static String resultPlain;
+    private static String resultJson;
 
     private static Path getPath(String name) {
         return Paths.get("src", "test", "resources", name);
@@ -24,6 +26,10 @@ class DifferTest {
 
     private static String getStringPath(String name) {
         return getPath(name).toString();
+    }
+
+    private static String getFile(String name, String ext) {
+        return getStringPath(String.format("%s/%s.%s", ext, name, ext));
     }
 
     private static String getResourceByName(String name) {
@@ -38,17 +44,20 @@ class DifferTest {
     private static String getResultByFormat(String format) {
         switch (format) {
             case "plain":
-                return resultPlainComplex;
+                return resultPlain;
+            case "json":
+                return resultJson;
             default:
-                return resultStylishComplex;
+                return resultStylish;
         }
     }
 
     @BeforeAll
     static void loadFiles() {
+        resultSimpleStylish = getResourceByName("result_simple_stylish.txt");
         resultStylish = getResourceByName("result_stylish.txt");
-        resultStylishComplex = getResourceByName("result_stylish_complex.txt");
-        resultPlainComplex = getResourceByName("result_plain_complex.txt");
+        resultPlain = getResourceByName("result_plain.txt");
+        resultJson = getResourceByName("result_json.json");
     }
 
     @DisplayName("Test simple cases")
@@ -56,10 +65,10 @@ class DifferTest {
     @ValueSource(strings = {"json", "yml"})
     void testSimple(String ext) {
         try {
-            String file1 = getStringPath(String.format("%s/file1.%s", ext, ext));
-            String file2 = getStringPath(String.format("%s/file2.%s", ext, ext));
+            String file1 = getFile("simple_1", ext);
+            String file2 = getFile("simple_2", ext);
             String ans = Differ.generate(file1, file2);
-            Assertions.assertTrue(resultStylish.equals(ans));
+            Assertions.assertTrue(resultSimpleStylish.equals(ans));
         } catch (Exception e) {
             System.out.println(e.getCause());
             System.out.println(e.getMessage());
@@ -68,29 +77,45 @@ class DifferTest {
 
     @DisplayName("Test complex cases")
     @ParameterizedTest(name = "Test {0} input files")
-    @CsvSource({ "json", "yml" } )
+    @CsvSource({"json", "yml"})
     void testComplex(String ext) {
         try {
-            String file1 = getStringPath(String.format("%s/file3.%s", ext, ext));
-            String file2 = getStringPath(String.format("%s/file4.%s", ext, ext));
+            String file1 = getFile("file1", ext);
+            String file2 = getFile("file2", ext);
             String ans = Differ.generate(file1, file2);
-            Assertions.assertTrue(resultStylishComplex.equals(ans));
+            Assertions.assertTrue(resultStylish.equals(ans));
         } catch (Exception e) {
             System.out.println(e.getCause());
             System.out.println(e.getMessage());
         }
     }
 
-    @DisplayName("Test different formats")
-    @ParameterizedTest(name = "Test output format {0}")
-    @CsvSource({"stylish", "plain"})
-    void testFormats(String format) {
+    @DisplayName("Test input and output formats")
+    @ParameterizedTest(name = "Test {index}: input [{0}], output [{1}]")
+    @CsvSource({"json, stylish", "json, plain", "yml, stylish", "yml, plain"})
+    void testFormats(String inputFormat, String outputFormat) {
         try {
-            String file1 = getStringPath("json/file3.json");
-            String file2 = getStringPath("json/file4.json");
-            String ans = Differ.generate(file1, file2, format);
-            String res = getResultByFormat(format);
+            String file1 = getFile("file1", inputFormat);
+            String file2 = getFile("file2", inputFormat);
+            String ans = Differ.generate(file1, file2, outputFormat);
+            String res = getResultByFormat(outputFormat);
             Assertions.assertTrue(res.equals(ans));
+        } catch (Exception e) {
+            System.out.println(e.getCause());
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @DisplayName("Test json output format")
+    @ParameterizedTest(name = "Test {index}: input [{0}], output [1]")
+    @CsvSource({"json, json", "yml, json"})
+    void testJsonOutput(String inputFormat, String outputFormat) {
+        try {
+            String file1 = getFile("file1", inputFormat);
+            String file2 = getFile("file2", inputFormat);
+            String ans = Differ.generate(file1, file2, outputFormat);
+            String res = getResultByFormat(outputFormat);
+            JSONAssert.assertEquals(ans, res, false);
         } catch (Exception e) {
             System.out.println(e.getCause());
             System.out.println(e.getMessage());

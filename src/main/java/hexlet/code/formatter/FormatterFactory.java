@@ -6,6 +6,8 @@ public class FormatterFactory {
         switch (format) {
             case "plain":
                 return new PlainFormatter();
+            case "json":
+                return new JsonFormatter();
             default:
                 return new StylishFormatter();
         }
