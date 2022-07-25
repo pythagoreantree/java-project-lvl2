@@ -3,7 +3,7 @@ package hexlet.code.formatter;
 import java.util.List;
 import java.util.Map;
 
-public class PlainFormatter implements Formatter {
+public final class PlainFormatter implements Formatter {
 
     @Override
     public String format(List<Map<String, Object>> properties) throws Exception {

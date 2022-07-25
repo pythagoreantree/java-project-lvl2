@@ -18,11 +18,11 @@ class DifferTest {
     private static String resultStylishComplex;
     private static String resultPlainComplex;
 
-    private static Path getPath(String name){
-        return Paths.get("src","test", "resources", name);
+    private static Path getPath(String name) {
+        return Paths.get("src", "test", "resources", name);
     }
 
-    private static String getStringPath(String name){
+    private static String getStringPath(String name) {
         return getPath(name).toString();
     }
 
@@ -52,8 +52,8 @@ class DifferTest {
     }
 
     @DisplayName("Test simple cases")
-    @ParameterizedTest(name= "Test {0} input files")
-    @ValueSource(strings = { "json", "yml" } )
+    @ParameterizedTest(name = "Test {0} input files")
+    @ValueSource(strings = {"json", "yml"})
     void testSimple(String ext) {
         try {
             String file1 = getStringPath(String.format("%s/file1.%s", ext, ext));
@@ -83,7 +83,7 @@ class DifferTest {
 
     @DisplayName("Test different formats")
     @ParameterizedTest(name = "Test output format {0}")
-    @CsvSource({ "stylish", "plain" } )
+    @CsvSource({"stylish", "plain"})
     void testFormats(String format) {
         try {
             String file1 = getStringPath("json/file3.json");

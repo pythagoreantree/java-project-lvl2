@@ -2,7 +2,6 @@ package hexlet.code;
 
 import hexlet.code.formatter.Formatter;
 import hexlet.code.formatter.FormatterFactory;
-import hexlet.code.formatter.StylishFormatter;
 import hexlet.code.parser.Parser;
 import hexlet.code.parser.ParserFactory;
 
