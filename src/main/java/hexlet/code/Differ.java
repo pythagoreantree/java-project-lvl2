@@ -86,10 +86,7 @@ public class Differ {
         if (path.isAbsolute()) {
             return path.toFile();
         }
-        String workingDirectory = System.getProperty("user.dir");
-        Path wd = Paths.get(workingDirectory);
-        Path finalPath = wd.resolve(path);
-        return finalPath.toFile();
+        return path.toAbsolutePath().toFile();
     }
 
 }
