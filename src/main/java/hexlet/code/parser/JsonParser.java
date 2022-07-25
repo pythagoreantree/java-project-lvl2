@@ -1,6 +1,5 @@
 package hexlet.code.parser;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -12,6 +11,6 @@ public final class JsonParser implements Parser {
     @Override
     public Map<String, Object> parse(File file) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(file, new TypeReference<Map<String, Object>>() { });
+        return mapper.readValue(file, Map.class);
     }
 }

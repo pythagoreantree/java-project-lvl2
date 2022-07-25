@@ -26,6 +26,24 @@ class DifferTest {
         }
     }
 
+//    @Test
+    void testJsonComplex() {
+        try {
+            String res = Files.readString(Paths.get("result_stylish_complex.txt"));
+//            String ans = Differ.generate("file3.json", "file4.json");
+            System.out.println(res);
+            System.out.println();
+//            System.out.println(ans);
+
+//            Assertions.assertTrue(ans.equals(res));
+        } catch (IOException e) {
+            System.out.println("Can't open file");
+        } catch (Exception e) {
+            System.out.println(e.getCause());
+            System.out.println(e.getMessage());
+        }
+    }
+
     @Test
     void testYml() {
         try {

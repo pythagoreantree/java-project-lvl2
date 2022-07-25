@@ -10,8 +10,7 @@ public class ParserFactory {
             case "yaml":
                 return new YmlParser();
             default:
-                System.out.println("No parser for this format!");
+                throw new Exception("No parser found for the format: " + format);
         }
-        throw new Exception("No parser found for the format: " + format);
     }
 }
