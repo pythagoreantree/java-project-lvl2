@@ -18,6 +18,9 @@ run-dist-2:
 run-dist-3:
 	./build/install/java-project-lvl2/bin/java-project-lvl2 file1.json file2.json
 
+run-dist-4:
+	./build/install/java-project-lvl2/bin/java-project-lvl2 file1.yml file2.yml
+
 run:
 	./gradlew run
 
