@@ -9,5 +9,5 @@
  */
 
 rootProject.name = 'hexlet-app-2'
-include('lib')
+includeBuild 'app'
 
