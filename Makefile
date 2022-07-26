@@ -1,33 +1,39 @@
-.DEFAULT_GOAL := build-run
+ci:
+	docker-compose -f docker-compose.yml run app make setup
+	docker-compose -f docker-compose.yml up --abort-on-container-exit
 
-clean:
-	./gradlew clean
+compose-setup: compose-build compose-app-setup
 
-build:
-	./gradlew clean build
+compose-build:
+	docker-compose build
 
-install:
-	./gradlew clean install
+compose-app-setup:
+	docker-compose run --rm app make setup
 
-run-dist:
-	./build/install/java-package/bin/java-package
+compose-bash:
+	docker-compose run --rm app bash
 
-run:
-	./gradlew run
+compose-lint:
+	docker-compose run --rm app make lint
+
+compose-test:
+	docker-compose -f docker-compose.yml up --abort-on-container-exit
+
+compose-down:
+	docker-compose down -v --remove-orphans
+
+setup:
+	cd code && ./gradlew clean install
+	gradle clean compileTest
 
 test:
-	./gradlew test
-
-report:
-	./gradlew jacocoTestReport
+	gradle test
 
 lint:
-	./gradlew checkstyleMain checkstyleTest
+	gradle checkstyleTest checkCode
 
-update-deps:
-	./gradlew useLatestVersions
+code-run:
+	make -C code run
 
-
-build-run: build run
-
-.PHONY: build
+check-updates:
+	gradle dependencyUpdates
