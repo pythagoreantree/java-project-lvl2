@@ -1,4 +1,4 @@
-package code;
+package hexlet.code;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

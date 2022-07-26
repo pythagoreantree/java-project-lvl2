@@ -1,4 +1,4 @@
-package code.formatter;
+package hexlet.code.formatter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
