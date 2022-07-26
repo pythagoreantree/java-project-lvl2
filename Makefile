@@ -1,51 +1,39 @@
-.DEFAULT_GOAL := build-run
+ci:
+	docker-compose -f docker-compose.yml run app make setup
+	docker-compose -f docker-compose.yml up --abort-on-container-exit
 
-clean:
-	./gradlew clean
+compose-setup: compose-build compose-app-setup
 
-build:
-	./gradlew clean build
+compose-build:
+	docker-compose build
 
-install:
-	./gradlew clean install
+compose-app-setup:
+	docker-compose run --rm app make setup
 
-run-dist:
-	./build/install/java-project-lvl2/bin/java-project-lvl2
+compose-bash:
+	docker-compose run --rm app bash
 
-run-dist-2:
-	./build/install/java-project-lvl2/bin/java-project-lvl2 -h
+compose-lint:
+	docker-compose run --rm app make lint
 
-run-dist-json:
-	./build/install/java-project-lvl2/bin/java-project-lvl2 file1.json file2.json
+compose-test:
+	docker-compose -f docker-compose.yml up --abort-on-container-exit
 
-run-dist-yml:
-	./build/install/java-project-lvl2/bin/java-project-lvl2 file1.yml file2.yml
+compose-down:
+	docker-compose down -v --remove-orphans
 
-run-dist-stylish:
-	./build/install/java-project-lvl2/bin/java-project-lvl2 -f stylish file1.json file2.json
-
-run-dist-plain:
-	./build/install/java-project-lvl2/bin/java-project-lvl2 -f plain file1.json file2.json
-
-run-dist-json-out:
-	./build/install/java-project-lvl2/bin/java-project-lvl2 -f json file1.json file2.json
-
-run:
-	./gradlew run
+setup:
+	cd code && ./gradlew clean install
+	gradle clean compileTest
 
 test:
-	./gradlew test
-
-report:
-	./gradlew jacocoTestReport
+	gradle test
 
 lint:
-	./gradlew checkstyleMain checkstyleTest
+	gradle checkstyleTest checkCode
 
-update-deps:
-	./gradlew useLatestVersions
+code-run:
+	make -C code run
 
-
-build-run: build run
-
-.PHONY: build
+check-updates:
+	gradle dependencyUpdates
