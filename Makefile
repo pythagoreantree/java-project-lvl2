@@ -37,3 +37,6 @@ code-run:
 
 check-updates:
 	gradle dependencyUpdates
+
+report:
+	gradle jacocoTestReport
