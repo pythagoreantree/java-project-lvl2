@@ -1,4 +1,4 @@
-package hexlet.code.parser;
+package code.parser;
 
 import java.io.File;
 import java.io.IOException;

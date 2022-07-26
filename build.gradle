@@ -1,45 +1,39 @@
 plugins {
-    id 'application'
+    id 'base'
+    id 'java'
     id 'checkstyle'
-    id 'jacoco'
+    id 'com.github.ben-manes.versions' version '0.39.0'
 }
 
-group 'hexlet.code'
-version '1.0'
+group = 'hexlet.project'
+version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-}
-
-application {
-    mainClass = 'hexlet.code.App'
 }
 
 compileJava {
     options.release = 18
 }
 
-run {
-    standardInput = System.in
-}
-
 dependencies {
-    implementation 'info.picocli:picocli:4.6.3'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.0.1'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.3'
-    implementation 'org.jetbrains:annotations:19.0.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
     testImplementation 'org.skyscreamer:jsonassert:1.5.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'hexlet.code:code'
 }
 
 test {
     useJUnitPlatform()
+    failFast true
 }
 
-jacocoTestReport {
-    reports {
-        xml.required = true
-    }
+checkstyle {
+    toolVersion '9.0'
+}
+
+task checkCode (type: Checkstyle) {
+    source 'code'
+    include '**/*.java'
+    classpath = files()
 }

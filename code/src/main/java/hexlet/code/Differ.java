@@ -1,9 +1,9 @@
-package hexlet.code;
+package code;
 
-import hexlet.code.formatter.Formatter;
-import hexlet.code.formatter.FormatterFactory;
-import hexlet.code.parser.Parser;
-import hexlet.code.parser.ParserFactory;
+import code.parser.Parser;
+import code.parser.ParserFactory;
+import code.formatter.Formatter;
+import code.formatter.FormatterFactory;
 
 import java.io.File;
 import java.nio.file.Path;
