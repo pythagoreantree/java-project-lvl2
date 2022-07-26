@@ -15,7 +15,7 @@ plugins {
 }
 
 group = 'hexlet.code'
-version = '1.0-SNAPSHOT'
+version = '0.0.1'
 
 repositories {
     mavenCentral()
@@ -32,12 +32,12 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
-testing {
-    suites {
-        // Configure the built-in test suite
-        test {
-            // Use JUnit Jupiter test framework
-            useJUnitJupiter('5.8.1')
-        }
+test {
+    useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
     }
 }
