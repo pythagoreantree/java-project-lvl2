@@ -34,7 +34,9 @@ public final class PlainFormatter implements Formatter {
                     throw new Exception("No such status " + status);
             }
         }
-        return sb.toString();
+        String res = sb.toString();
+        res = res.substring(0, res.length() - 1);
+        return res;
     }
 
     private String getStringValue(Object value) {
