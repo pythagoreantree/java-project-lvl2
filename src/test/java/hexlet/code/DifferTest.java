@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.nio.file.Paths;
 
 class DifferTest {
 
-    private static String resultSimpleStylish;
     private static String resultStylish;
     private static String resultPlain;
     private static String resultJson;
@@ -54,25 +52,9 @@ class DifferTest {
 
     @BeforeAll
     static void loadFiles() {
-        resultSimpleStylish = getResourceByName("result_simple_stylish.txt");
         resultStylish = getResourceByName("result_stylish.txt");
         resultPlain = getResourceByName("result_plain.txt");
         resultJson = getResourceByName("result_json.json");
-    }
-
-    @DisplayName("Test simple cases")
-    @ParameterizedTest(name = "Test {index}: input [{0}], output [default=stylish]")
-    @ValueSource(strings = {"json", "yml"})
-    void testSimple(String ext) {
-        try {
-            String file1 = getFile("simple_1", ext);
-            String file2 = getFile("simple_2", ext);
-            String ans = Differ.generate(file1, file2);
-            Assertions.assertTrue(resultSimpleStylish.equals(ans));
-        } catch (Exception e) {
-            System.out.println(e.getCause());
-            System.out.println(e.getMessage());
-        }
     }
 
     @DisplayName("Test complex cases")

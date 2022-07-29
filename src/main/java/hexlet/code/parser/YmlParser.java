@@ -10,8 +10,8 @@ import java.util.Map;
 public final class YmlParser implements Parser {
 
     @Override
-    public Map<String, Object> parse(File file) throws IOException {
+    public Map<String, Object> parse(String content) throws IOException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        return mapper.readValue(file, Map.class);
+        return mapper.readValue(content, Map.class);
     }
 }

@@ -6,6 +6,6 @@ import java.util.Map;
 
 public interface Parser {
 
-    Map<String, Object> parse(File file) throws IOException;
+    Map<String, Object> parse(String content) throws IOException;
 
 }

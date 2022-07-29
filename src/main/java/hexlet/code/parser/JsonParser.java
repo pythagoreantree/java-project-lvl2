@@ -9,8 +9,8 @@ import java.util.Map;
 public final class JsonParser implements Parser {
 
     @Override
-    public Map<String, Object> parse(File file) throws IOException {
+    public Map<String, Object> parse(String content) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(file, Map.class);
+        return mapper.readValue(content, Map.class);
     }
 }
