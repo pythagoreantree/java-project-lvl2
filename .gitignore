@@ -5,3 +5,6 @@
 /app/build/
 /app/src/main/main.iml
 /app/src/test/test.iml
+gradlew
+gradlew.bat
+settings.gradle
