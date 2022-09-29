@@ -3,3 +3,5 @@
 /build/
 /app/.gradle/
 /app/build/
+/app/src/main/main.iml
+/app/src/test/test.iml
